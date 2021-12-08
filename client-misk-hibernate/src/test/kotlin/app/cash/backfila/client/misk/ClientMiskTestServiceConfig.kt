@@ -1,7 +1,8 @@
 package app.cash.backfila.client.misk
 
-import app.cash.backfila.client.misk.client.BackfilaClientConfig
-import app.cash.backfila.client.misk.client.BackfilaClientModule
+import app.cash.backfila.client.BackfillConfig
+import app.cash.backfila.client.NoParameters
+import app.cash.backfila.client.BackfilaHttpClientConfig
 import app.cash.backfila.client.misk.hibernate.HibernateBackfill
 import app.cash.backfila.client.misk.hibernate.HibernateBackfillModule
 import app.cash.backfila.client.misk.hibernate.SinglePartitionHibernateTestBackfill
@@ -14,6 +15,7 @@ import misk.hibernate.Id
 import misk.inject.KAbstractModule
 
 // TODO(mikepaw) Not sure we even want this anymore. Maybe I'll replace this with an injector test of some kind?
+// This should probably be some kind of misk test instead.
 class DummyBackfill : HibernateBackfill<DbMenu, Id<DbMenu>, NoParameters>() {
   override fun partitionProvider() = TODO()
 
@@ -22,8 +24,8 @@ class DummyBackfill : HibernateBackfill<DbMenu, Id<DbMenu>, NoParameters>() {
 
 fun main(args: Array<String>) {
   MiskApplication(
-    BackfillModule(
-      BackfilaClientConfig(
+    MiskBackfillModule(
+      BackfilaHttpClientConfig(
         url = "#test", slack_channel = "#test"
       )
     ),
@@ -32,7 +34,6 @@ fun main(args: Array<String>) {
         install(HibernateBackfillModule.create<SinglePartitionHibernateTestBackfill>())
       }
     },
-    BackfilaClientModule(),
     HttpClientsConfigModule(
       HttpClientsConfig(
         endpoints = mapOf(

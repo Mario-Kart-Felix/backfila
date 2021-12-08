@@ -11,8 +11,9 @@ dependencies {
   implementation(Dependencies.loggingApi)
   implementation(Dependencies.wireMoshiAdapter)
 
-  api(project(":client-misk"))
-  testApi(project(":client-misk-testing"))
+  api(project(":client"))
+  // We do not want to leak client-base implementation details to customers.
+  implementation(project(":client-base"))
 
   implementation(Dependencies.misk)
   implementation(Dependencies.miskActions)
@@ -23,20 +24,17 @@ dependencies {
   testImplementation(Dependencies.assertj)
   testImplementation(Dependencies.miskTesting)
   testImplementation(Dependencies.miskHibernateTesting)
+  testImplementation(project(":client-misk"))
   testImplementation(Dependencies.kotlinTest)
   testImplementation(Dependencies.junitEngine)
   testImplementation(Dependencies.okHttp)
+
+  testImplementation(project(":backfila-embedded"))
+  testImplementation(project(":client-testing"))
 }
 
 val jar by tasks.getting(Jar::class) {
   baseName = "backfila-client-misk-hibernate"
-}
-
-afterEvaluate {
-  project.tasks.dokka {
-    outputDirectory = "$rootDir/docs/0.x"
-    outputFormat = "gfm"
-  }
 }
 
 if (rootProject.file("hooks.gradle").exists()) {

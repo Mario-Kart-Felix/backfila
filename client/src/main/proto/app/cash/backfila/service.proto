@@ -28,6 +28,11 @@ message ConfigureServiceRequest {
 
     // If true the backfill will need approval from another user before it can be started.
     optional bool requires_approval = 6;
+
+    // Notes when this backfill should no longer be useful and the code should be deleted. This will
+    // be used to power removal reminders. It will guarantee that reminders will not occur until
+    // after this date. This defaults to as soon as possible if it is missing.
+    optional uint64 delete_by = 7;
   }
 
   // List of all available backfills in this service
@@ -74,4 +79,19 @@ message CreateAndStartBackfillRequest {
 
 message CreateAndStartBackfillResponse {
   optional uint64 backfill_run_id = 1;
+}
+
+// Checks on the status of a backfill.
+message CheckBackfillStatusRequest {
+  optional uint64 backfill_run_id = 1;
+}
+
+message CheckBackfillStatusResponse {
+  optional Status status = 1;
+
+  enum Status {
+    PAUSED = 1;
+    RUNNING = 2;
+    COMPLETE = 3;
+  }
 }

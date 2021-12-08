@@ -99,7 +99,7 @@ class CreateBackfillActionTest {
             listOf(
               ConfigureServiceRequest.BackfillData(
                 "ChickenSandwich", "Description", listOf(), null,
-                null, false
+                null, false, null
               )
             )
           )
@@ -149,7 +149,7 @@ class CreateBackfillActionTest {
             listOf(
               ConfigureServiceRequest.BackfillData(
                 "ChickenSandwich", "Description", listOf(), null,
-                null, false
+                null, false, null
               )
             )
           )
@@ -173,7 +173,7 @@ class CreateBackfillActionTest {
     )
 
     scope.fakeCaller(user = "molly") {
-      val response = createBackfillAction.create(
+      createBackfillAction.create(
         "deep-fryer",
         CreateBackfillRequest.Builder()
           .backfill_name("ChickenSandwich")
@@ -199,7 +199,7 @@ class CreateBackfillActionTest {
             listOf(
               ConfigureServiceRequest.BackfillData(
                 "ChickenSandwich", "Description", listOf(), null,
-                null, false
+                null, false, null
               )
             )
           )
@@ -223,7 +223,7 @@ class CreateBackfillActionTest {
     )
 
     scope.fakeCaller(user = "molly") {
-      val response = createBackfillAction.create(
+      createBackfillAction.create(
         "deep-fryer",
         CreateBackfillRequest.Builder()
           .backfill_name("ChickenSandwich")
