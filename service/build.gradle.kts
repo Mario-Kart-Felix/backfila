@@ -1,14 +1,16 @@
-apply(plugin = "kotlin")
-apply(plugin = "com.github.johnrengelman.shadow")
-apply(plugin = "com.diffplug.spotless")
+plugins {
+  id("com.github.johnrengelman.shadow")
+  kotlin("jvm")
+  id("com.diffplug.spotless")
+}
 
 sourceSets {
   val main by getting {
     resources.srcDir(listOf(
-            "web/tabs/app/lib"
+      "web/tabs/app/lib"
     ))
     resources.srcDir(listOf(
-            "web/static/"
+      "web/static/"
     ))
     resources.exclude("**/node_modules")
   }
@@ -87,8 +89,6 @@ val shadowJar by tasks.getting(com.github.jengelman.gradle.plugins.shadow.tasks.
   exclude("module-info.class") // https://github.com/johnrengelman/shadow/issues/352
   // https://youtrack.jetbrains.com/issue/KT-25709
   exclude("**/*.kotlin_metadata")
-  exclude("**/*.kotlin_module")
-  exclude("**/*.kotlin_builtins")
 
   mergeServiceFiles()
   isZip64 = true
